@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Soberanía Inevisual</string>
+    <string name="activar">Activar 432Hz</string>
+    <string name="detener">Detener</string>
+    <string name="abrir_dashboard">Abrir dashboard</string>
+    <string name="ejecutar_python">Ejecutar Python</string>
+
+    <string name="run_node">Correr nodo</string>
+    <string name="gen_audio_py">Generar WAV (Python)</string>
+    <string name="leer_archivo">Leer archivo</string>
+    <string name="qrng">QRNG</string>
+    <string name="ver_bitacora">Ver bitácora</string>
+
+</resources>
