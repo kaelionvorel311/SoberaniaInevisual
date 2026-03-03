@@ -163,6 +163,77 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        // Activación por Letra de Canción Codificada
+        binding.btnSongActivation.setOnClickListener {
+            thread(start = true) {
+                val py = getPython()
+
+                // Leer letra codificada desde assets
+                val songFile = File(getCacheDirInternal(), "cancion_codificada.txt")
+                copyAssetIfNeeded("cancion_codificada.txt", songFile)
+
+                // Leer contenido
+                val encodedLyric = songFile.readText()
+
+                // Decodificar y activar usando la clave PHI
+                val result = py.getModule("soberania")
+                    .callAttr(
+                        "activate_from_song_lyric",
+                        encodedLyric,
+                        "PHI",
+                        getLogFile().absolutePath,
+                        "LIBERTAD"
+                    )
+                    .toString()
+
+                runOnUiThread {
+                    binding.pythonOutput.text = "Activación por Canción:\n$result"
+                }
+            }
+        }
+
+        // Codificar texto personalizado
+        binding.btnEncodeLyric.setOnClickListener {
+            val inputText = binding.editLyricInput.text.toString()
+            val cipherKey = binding.editCipherKey.text.toString().ifBlank { "PHI" }
+
+            if (inputText.isNotBlank()) {
+                thread(start = true) {
+                    val py = getPython()
+                    val result = py.getModule("soberania")
+                        .callAttr("encode_song_lyric", inputText, cipherKey)
+                        .toString()
+
+                    runOnUiThread {
+                        binding.pythonOutput.text = "Codificado:\n$result"
+                    }
+                }
+            } else {
+                binding.pythonOutput.text = "Ingresa texto para codificar"
+            }
+        }
+
+        // Decodificar texto personalizado
+        binding.btnDecodeLyric.setOnClickListener {
+            val inputText = binding.editLyricInput.text.toString()
+            val cipherKey = binding.editCipherKey.text.toString().ifBlank { "PHI" }
+
+            if (inputText.isNotBlank()) {
+                thread(start = true) {
+                    val py = getPython()
+                    val result = py.getModule("soberania")
+                        .callAttr("decode_song_lyric", inputText, cipherKey)
+                        .toString()
+
+                    runOnUiThread {
+                        binding.pythonOutput.text = "Decodificado:\n$result"
+                    }
+                }
+            } else {
+                binding.pythonOutput.text = "Ingresa texto para decodificar"
+            }
+        }
     }
 
     override fun onStop() {

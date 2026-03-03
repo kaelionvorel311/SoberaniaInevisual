@@ -163,6 +163,65 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/ver_bitacora"/>
+
+    <!-- Sección de Activación por Canción Codificada -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Activación por Letra Codificada"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/editLyricInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Texto a codificar/decodificar"
+        android:inputType="textMultiLine"
+        android:minLines="2"
+        android:maxLines="4"
+        android:layout_marginTop="6dp"/>
+
+    <EditText
+        android:id="@+id/editCipherKey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Clave (PHI, 432, 1111)"
+        android:text="PHI"
+        android:inputType="text"
+        android:layout_marginTop="6dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEncodeLyric"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Codificar"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDecodeLyric"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Decodificar"/>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSongActivation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Activar desde Canción"
+        android:backgroundTint="#FF6B35"/>
 </LinearLayout>
 
 

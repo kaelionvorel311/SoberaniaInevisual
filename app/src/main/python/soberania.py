@@ -216,3 +216,156 @@ def qrng_bytes(n_bytes: int = 16, mode: str = "anu") -> Dict[str, Any]:
 
 def ping() -> str:
     return "Python OK"
+
+
+# -------------------------
+# Activación por Letra de Canción Codificada
+# -------------------------
+def decode_song_lyric(encoded_text: str, cipher_key: str = "PHI") -> Dict[str, Any]:
+    """Decodifica una letra de canción usando un cifrado simple basado en desplazamiento.
+
+    cipher_key determina el algoritmo:
+    - "PHI": desplazamiento basado en la razón áurea (1.618... -> 1 o 2 chars)
+    - "432": desplazamiento de 4 caracteres
+    - "1111": desplazamiento de 11 caracteres
+    - Cualquier otro: desplazamiento basado en la suma de valores ASCII del key
+    """
+    encoded_text = str(encoded_text)
+    cipher_key = str(cipher_key).strip().upper() or "PHI"
+
+    # Determinar desplazamiento
+    if cipher_key == "PHI":
+        shift = int(PHI)  # 1
+    elif cipher_key == "432":
+        shift = 4
+    elif cipher_key == "1111":
+        shift = 11
+    else:
+        shift = sum(ord(c) for c in cipher_key) % 26
+
+    decoded = []
+    for char in encoded_text:
+        if char.isalpha():
+            is_upper = char.isupper()
+            base = ord('A') if is_upper else ord('a')
+            # Decodificar: restar el desplazamiento
+            decoded_char = chr((ord(char) - base - shift) % 26 + base)
+            decoded.append(decoded_char)
+        else:
+            decoded.append(char)
+
+    decoded_text = "".join(decoded)
+    return {
+        "ok": True,
+        "cipher_key": cipher_key,
+        "shift": shift,
+        "encoded": encoded_text,
+        "decoded": decoded_text
+    }
+
+
+def encode_song_lyric(plain_text: str, cipher_key: str = "PHI") -> Dict[str, Any]:
+    """Codifica una letra de canción usando el mismo algoritmo de decode_song_lyric."""
+    plain_text = str(plain_text)
+    cipher_key = str(cipher_key).strip().upper() or "PHI"
+
+    # Determinar desplazamiento
+    if cipher_key == "PHI":
+        shift = int(PHI)  # 1
+    elif cipher_key == "432":
+        shift = 4
+    elif cipher_key == "1111":
+        shift = 11
+    else:
+        shift = sum(ord(c) for c in cipher_key) % 26
+
+    encoded = []
+    for char in plain_text:
+        if char.isalpha():
+            is_upper = char.isupper()
+            base = ord('A') if is_upper else ord('a')
+            # Codificar: sumar el desplazamiento
+            encoded_char = chr((ord(char) - base + shift) % 26 + base)
+            encoded.append(encoded_char)
+        else:
+            encoded.append(char)
+
+    encoded_text = "".join(encoded)
+    return {
+        "ok": True,
+        "cipher_key": cipher_key,
+        "shift": shift,
+        "plain": plain_text,
+        "encoded": encoded_text
+    }
+
+
+def activate_from_song_lyric(
+    encoded_lyric: str,
+    cipher_key: str = "PHI",
+    log_path: str = "",
+    trigger_word: str = "LIBERTAD"
+) -> Dict[str, Any]:
+    """Decodifica una letra y busca una palabra clave para activar el sistema.
+
+    Si la letra decodificada contiene trigger_word, activa el nodo correspondiente.
+    """
+    encoded_lyric = str(encoded_lyric)
+    cipher_key = str(cipher_key).strip().upper() or "PHI"
+    trigger_word = str(trigger_word).strip().upper() or "LIBERTAD"
+
+    # Decodificar
+    decode_result = decode_song_lyric(encoded_lyric, cipher_key)
+    decoded_text = decode_result["decoded"]
+
+    # Buscar palabra clave
+    found = trigger_word in decoded_text.upper()
+
+    result = {
+        "ok": True,
+        "decoded": decoded_text,
+        "trigger_word": trigger_word,
+        "found": found,
+        "activated": False,
+        "node": None
+    }
+
+    if found:
+        # Mapear palabra clave a nodo
+        node_map = {
+            "LIBERTAD": "LIBERTAD",
+            "PROTECCION": "PROTECCION",
+            "ABUNDANCIA": "ABUNDANCIA",
+            "MIEDO": "PERDER_EL_MIEDO",
+            "TERCER": "APERTURA_TERCER_OJO",
+            "OJO": "APERTURA_TERCER_OJO"
+        }
+
+        # Buscar qué nodo activar
+        node = None
+        for keyword, node_name in node_map.items():
+            if keyword in decoded_text.upper():
+                node = node_name
+                break
+
+        if not node:
+            node = "LIBERTAD"  # default
+
+        # Activar nodo
+        pack = activate_node(node)
+        result["activated"] = True
+        result["node"] = node
+        result["message"] = pack["message"]
+
+        # Registrar en bitácora si se proporciona ruta
+        if log_path:
+            event = {
+                "type": "song_lyric_activation",
+                "cipher_key": cipher_key,
+                "trigger_word": trigger_word,
+                "node": node,
+                "decoded_preview": decoded_text[:100]
+            }
+            log_event(log_path, event)
+
+    return result
