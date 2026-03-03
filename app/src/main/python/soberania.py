@@ -214,5 +214,19 @@ def qrng_bytes(n_bytes: int = 16, mode: str = "anu") -> Dict[str, Any]:
     return {"ok": True, "mode": "secrets", "n_bytes": n_bytes, "hex": b.hex()}
 
 
+def log_activacion_letra(log_path: str, letra_completa: str, total_versos: int) -> Dict[str, Any]:
+    """Registra la activación completa por letra de canción codificada en la bitácora."""
+    log_path = str(log_path)
+    event = {
+        "type": "activacion_letra_completa",
+        "letra": str(letra_completa),
+        "total_versos": int(total_versos),
+        "sello": "11:11",
+        "frecuencia_hz": 432.0,
+    }
+    log_event(log_path, event)
+    return {"ok": True, "versos": total_versos, "sello": "11:11"}
+
+
 def ping() -> str:
     return "Python OK"

@@ -11,4 +11,21 @@
     <string name="qrng">QRNG</string>
     <string name="ver_bitacora">Ver bitácora</string>
 
+    <!-- Activación por Letra -->
+    <string name="activacion_letra">Activación Letra</string>
+    <string name="activacion_letra_titulo">Activación por Letra Codificada</string>
+    <string name="activacion_letra_subtitulo">Descifra cada verso del himno soberano para desbloquear la resonancia</string>
+    <string name="hint_ingresa_verso">Escribe la frase del verso…</string>
+    <string name="verificar_verso">Verificar</string>
+    <string name="verso_n_de_total">Verso %1$d / %2$d</string>
+    <string name="escribe_la_frase">Escribe la frase para continuar</string>
+    <string name="verso_desbloqueado">Verso desbloqueado</string>
+    <string name="frase_incorrecta">Frase incorrecta — intenta de nuevo</string>
+    <string name="todos_versos_desbloqueados">Todos los versos desbloqueados</string>
+    <string name="activacion_completa_titulo">ACTIVACIÓN SOBERANA COMPLETA</string>
+    <string name="activar_resonancia_completa">Activar Resonancia 432 Hz</string>
+    <string name="resonancia_activando">Resonancia 432 Hz activándose…</string>
+    <string name="resonancia_completada">Resonancia completada. Sello 11:11 activo.</string>
+    <string name="volver">Volver</string>
+
 </resources>

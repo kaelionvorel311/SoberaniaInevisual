@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#0A0A14">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/tituloActivacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/activacion_letra_titulo"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#E0C878"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/activacion_letra_subtitulo"
+            android:textSize="13sp"
+            android:textColor="#8888AA"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Indicador de progreso -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
+
+            <View
+                android:id="@+id/indicador1"
+                android:layout_width="36dp"
+                android:layout_height="6dp"
+                android:layout_margin="3dp"
+                android:background="#333355"/>
+            <View
+                android:id="@+id/indicador2"
+                android:layout_width="36dp"
+                android:layout_height="6dp"
+                android:layout_margin="3dp"
+                android:background="#333355"/>
+            <View
+                android:id="@+id/indicador3"
+                android:layout_width="36dp"
+                android:layout_height="6dp"
+                android:layout_margin="3dp"
+                android:background="#333355"/>
+            <View
+                android:id="@+id/indicador4"
+                android:layout_width="36dp"
+                android:layout_height="6dp"
+                android:layout_margin="3dp"
+                android:background="#333355"/>
+            <View
+                android:id="@+id/indicador5"
+                android:layout_width="36dp"
+                android:layout_height="6dp"
+                android:layout_margin="3dp"
+                android:background="#333355"/>
+        </LinearLayout>
+
+        <!-- Número de verso actual -->
+        <TextView
+            android:id="@+id/labelVersoNum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verso 1 / 5"
+            android:textSize="14sp"
+            android:textColor="#AAAACC"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Pista del verso (parcialmente oculta) -->
+        <TextView
+            android:id="@+id/txtPista"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="..."
+            android:textSize="18sp"
+            android:textColor="#CCCCEE"
+            android:textStyle="italic"
+            android:gravity="center"
+            android:fontFamily="monospace"
+            android:padding="16dp"
+            android:background="#15152A"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Texto cifrado (hex) -->
+        <TextView
+            android:id="@+id/txtCifrado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="[cifrado]"
+            android:textSize="10sp"
+            android:textColor="#445566"
+            android:gravity="center"
+            android:fontFamily="monospace"
+            android:maxLines="2"
+            android:ellipsize="middle"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Campo de entrada -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:boxBackgroundColor="#1A1A2E"
+            app:boxStrokeColor="#E0C878"
+            app:hintTextColor="#E0C878">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputFrase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_ingresa_verso"
+                android:textColor="#EEEEFF"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:maxLines="1"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Botón verificar -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnVerificar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/verificar_verso"
+            android:textSize="16sp"
+            app:backgroundTint="#E0C878"
+            android:textColor="#0A0A14"/>
+
+        <!-- Resultado del intento -->
+        <TextView
+            android:id="@+id/txtResultado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="14sp"
+            android:textColor="#88AACC"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Verso revelado (visible solo al desbloquear) -->
+        <TextView
+            android:id="@+id/txtVersoRevelado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="17sp"
+            android:textColor="#66EEBB"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="12dp"
+            android:visibility="gone"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Panel de activación completa (oculto hasta completar) -->
+        <LinearLayout
+            android:id="@+id/panelActivacionCompleta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="20dp"
+            android:background="#111128"
+            android:visibility="gone"
+            android:layout_marginTop="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/activacion_completa_titulo"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#FFD700"
+                android:gravity="center"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/txtLetraCompleta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="15sp"
+                android:textColor="#CCDDEE"
+                android:gravity="center"
+                android:lineSpacingExtra="6dp"
+                android:layout_marginBottom="16dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnActivarResonancia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/activar_resonancia_completa"
+                android:textSize="16sp"
+                app:backgroundTint="#FFD700"
+                android:textColor="#0A0A14"/>
+
+            <TextView
+                android:id="@+id/txtEstadoResonancia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="13sp"
+                android:textColor="#66EEBB"
+                android:gravity="center"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Botón volver -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnVolver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/volver"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="20dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="#8888AA"/>
+
+    </LinearLayout>
+</ScrollView>

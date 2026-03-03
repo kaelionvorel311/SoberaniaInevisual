@@ -69,6 +69,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, DashboardActivity::class.java))
         }
 
+        binding.btnActivacionLetra.setOnClickListener {
+            startActivity(Intent(this, ActivacionLetraActivity::class.java))
+        }
+
         // Ping rápido de Python
         binding.btnPython.setOnClickListener {
             thread(start = true) {

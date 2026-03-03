@@ -163,6 +163,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/ver_bitacora"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnActivacionLetra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/activacion_letra"
+        app:backgroundTint="#E0C878"
+        android:textColor="#0A0A14"/>
 </LinearLayout>
 
 
