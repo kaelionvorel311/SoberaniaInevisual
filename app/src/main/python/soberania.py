@@ -116,6 +116,63 @@ def run_node(node: str, log_path: str, meta_json: str = "{}") -> Dict[str, Any]:
     return {"ok": True, "pack": pack}
 
 
+def _decode_rot13(value: str) -> str:
+    out = []
+    for ch in value:
+        code = ord(ch)
+        if 65 <= code <= 90:
+            out.append(chr(((code - 65 + 13) % 26) + 65))
+        elif 97 <= code <= 122:
+            out.append(chr(((code - 97 + 13) % 26) + 97))
+        else:
+            out.append(ch)
+    return "".join(out)
+
+
+def _decode_base64(value: str) -> str:
+    import base64
+
+    raw = value.strip()
+    if not raw:
+        return ""
+    padding = (-len(raw)) % 4
+    raw += "=" * padding
+    decoded = base64.b64decode(raw.encode("utf-8"), validate=False)
+    return decoded.decode("utf-8", errors="replace")
+
+
+def activate_lyric(lyric_encoded: str, log_path: Optional[str] = None) -> Dict[str, Any]:
+    """Decodifica letra (base64 o rot13) y activa su mensaje."""
+    raw = str(lyric_encoded or "")
+    cleaned = "".join(raw.split())
+    decoded = ""
+    method = ""
+
+    try:
+        decoded = _decode_base64(cleaned)
+        method = "base64"
+    except Exception:
+        decoded = _decode_rot13(raw)
+        method = "rot13"
+
+    decoded = decoded.strip()
+    if not decoded:
+        return {"ok": False, "error": "EMPTY_DECODE", "method": method}
+
+    event = {
+        "type": "lyric_activation",
+        "method": method,
+        "preview": decoded[:120],
+    }
+    if log_path:
+        try:
+            log_event(log_path, event)
+        except Exception:
+            pass
+
+    return {"ok": True, "method": method, "decoded": decoded}
+
+
 # -------------------------
 # Lectura de archivos
 # -------------------------

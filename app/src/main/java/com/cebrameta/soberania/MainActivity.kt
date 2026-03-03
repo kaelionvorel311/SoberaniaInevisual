@@ -163,6 +163,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.btnActivarLetra.setOnClickListener {
+            val letraCodificada = binding.inputLetraCodificada.text?.toString().orEmpty()
+            thread(start = true) {
+                val py = getPython()
+                val result = py.getModule("soberania")
+                    .callAttr("activate_lyric", letraCodificada, getLogFile().absolutePath)
+                    .toString()
+
+                runOnUiThread {
+                    binding.pythonOutput.text = "Letra: $result"
+                }
+            }
+        }
     }
 
     override fun onStop() {

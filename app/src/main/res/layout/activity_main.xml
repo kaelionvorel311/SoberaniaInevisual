@@ -111,6 +111,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp" />
 
+    <EditText
+        android:id="@+id/inputLetraCodificada"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/hint_letra_codificada"
+        android:inputType="textMultiLine"
+        android:minLines="2" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnActivarLetra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/activar_letra" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

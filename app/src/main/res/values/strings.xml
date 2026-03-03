@@ -10,5 +10,7 @@
     <string name="leer_archivo">Leer archivo</string>
     <string name="qrng">QRNG</string>
     <string name="ver_bitacora">Ver bitácora</string>
+    <string name="activar_letra">Activar letra codificada</string>
+    <string name="hint_letra_codificada">Pega letra codificada (base64/rot13)</string>
 
 </resources>
