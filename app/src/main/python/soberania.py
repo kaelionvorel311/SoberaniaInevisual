@@ -216,3 +216,33 @@ def qrng_bytes(n_bytes: int = 16, mode: str = "anu") -> Dict[str, Any]:
 
 def ping() -> str:
     return "Python OK"
+
+
+_DISALLOWED_TERMS = {
+    "erótico",
+    "orgásmico",
+    "orgasmo",
+    "sexo",
+    "semen",
+    "vaginal",
+    "pene",
+    "clítoris",
+    "clitoris",
+    "masturbación",
+    "masturbacion",
+    "gemidos",
+}
+
+
+def safety_response(text: str) -> Dict[str, Any]:
+    """Respuesta segura si el contenido es explícito."""
+    text = (text or "").lower()
+    blocked = any(term in text for term in _DISALLOWED_TERMS)
+    if not blocked:
+        return {"ok": True, "blocked": False}
+
+    return {
+        "ok": False,
+        "blocked": True,
+        "message": "No puedo ayudar con contenido sexual explícito.",
+    }
